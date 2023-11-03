@@ -1,4 +1,5 @@
 use context essentials2021
+
 import reactors as R
 import image as I
 
@@ -46,7 +47,7 @@ type State = {
 BPS = 30
 
 SKJERM-BREDDE = 500
-SKJERM-HOYDE = 200
+SKJERM-HOYDE = 300
 SKJERM-FARGE = "white"
 
 PIN1-X-POSISJON = 125
@@ -58,10 +59,10 @@ Y-AKSE = 100
 TREKK-FARGE = "Black"
 TREKK-STR = 50
 TREKK-X = 250
-TREKK-Y = 150
+TREKK-Y = 200
 
-GAMEOVER-TEXT-COLOR = "red"
-GAMEOVER-TEXT-SIZE = 36
+GAMEOVER-TEXT-FARGE = "red"
+GAMEOVER-TEXT-STR = 36
 GAMEOVER-TEXT-X = SKJERM-BREDDE / 2
 GAMEOVER-TEXT-Y = SKJERM-HOYDE / 2
 
@@ -162,7 +163,7 @@ fun draw-trekk-text(state :: State, acc :: Image) -> Image:
 end
 
 fun draw-gameover-text(acc :: Image) -> Image:
-  txt = text("GAME OVER", GAMEOVER-TEXT-SIZE, GAMEOVER-TEXT-COLOR)
+  txt = text("GAME OVER", GAMEOVER-TEXT-STR, GAMEOVER-TEXT-FARGE)
   
   place-image(txt, GAMEOVER-TEXT-X, GAMEOVER-TEXT-Y, acc)
 end
@@ -188,12 +189,11 @@ end
 ### Starte på ny ###
 
 fun start-paa-ny(state :: State) -> State:
-  # Respawn egg in middle of current platform
   sirkel1 = state.sirkel1
   plassering = cases (Posisjon) state.plassering:
-    | venstre => state.top-platform
-    | midten => state.middle-platform
-    | hoyre => state.bottom-platform
+    | venstre => state.sirkel2 and state.sikel3 and state.sirkel4
+    | midten => state.sirkel1
+    | hoyre => empty
   end
 
   forflytning = sirkel1.{
